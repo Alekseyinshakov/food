@@ -78,3 +78,39 @@ function setClock(selector, endtime) {
 }
 
 setClock('.timer', deadLine)
+
+//*********************** MODAL************************ */
+
+const modal = document.querySelector('.modal')
+const openModal = document.querySelectorAll('[data-modal]')
+const closeModal = document.querySelector('[data-close]')
+
+openModal.forEach(item => {
+  item.addEventListener('click', () => {
+    modal.style.display = 'block'
+    document.body.style.overflow = 'hidden'
+  })
+})
+
+closeModal.addEventListener('click', () => {
+  closeModalFunction();
+})
+
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    closeModalFunction();
+  }
+})
+
+document.addEventListener('keydown', (e) => {
+  
+  if (e.code === 'Escape' && modal.style.display) {
+    closeModalFunction();
+    console.log('do');
+  }
+})
+
+function closeModalFunction() {
+  modal.style.display = ''
+  document.body.style.overflow = ''
+}
