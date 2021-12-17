@@ -84,11 +84,11 @@ setClock('.timer', deadLine)
 const modal = document.querySelector('.modal')
 const openModal = document.querySelectorAll('[data-modal]')
 const closeModal = document.querySelector('[data-close]')
+const modalTimerId = setTimeout(openModalFunction, 5000)
 
 openModal.forEach(item => {
   item.addEventListener('click', () => {
-    modal.style.display = 'block'
-    document.body.style.overflow = 'hidden'
+    openModalFunction();
   })
 })
 
@@ -102,15 +102,28 @@ modal.addEventListener('click', (e) => {
   }
 })
 
-document.addEventListener('keydown', (e) => {
-  
+document.addEventListener('keydown', (e) => {  
   if (e.code === 'Escape' && modal.style.display) {
     closeModalFunction();
-    console.log('do');
   }
 })
+
+window.addEventListener('scroll', showModalByScroll)
+
+function openModalFunction(params) {
+  modal.style.display = 'block'
+    document.body.style.overflow = 'hidden'
+}
+
+function showModalByScroll(params) {
+  if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight -1) {
+    openModalFunction();
+    removeEventListener('scroll', showModalByScroll)
+  }
+}
 
 function closeModalFunction() {
   modal.style.display = ''
   document.body.style.overflow = ''
+  clearTimeout(modalTimerId)
 }
