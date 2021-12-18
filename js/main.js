@@ -129,16 +129,12 @@ function closeModalFunction() {
 }
 
 //*********************** CARDS************************ */
-const arrayProps = [
-  ['img/tabs/vegy.jpg', 'vegy', 'Меню "Фитнес"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 229],
-  ['img/tabs/elite.jpg', 'elite', 'Меню “Премиум”', 'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!', 550],
-  ['img/tabs/post.jpg', 'post', 'Меню "Постное"', 'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков. ', 430]
-];
+
 const cardsContainer = document.querySelector('.menu .container');
 cardsContainer.innerHTML = '';
 
 class Cards {
-  constructor(img, alt, title, descr, price, parent) {
+  constructor(img, alt, title, descr, price, parent, ...classes) {
     this.img = img;
     this.alt = alt;
     this.title = title;
@@ -146,6 +142,7 @@ class Cards {
     this.price = price;
     this.transfer = 60;
     this.parent = parent;
+    this.classes = classes;
     this.changeToRub();
   }
   changeToRub() {
@@ -153,7 +150,14 @@ class Cards {
   }
   render() {
     const element = document.createElement('div');
-    element.innerHTML = `<div class="menu__item">
+    if (this.classes.length === 0) {
+      this.classes = 'menu__item'
+      element.classList.add(this.classes)
+    } else {
+      this.classes.forEach(className => element.classList.add(className));
+    }
+    
+    element.innerHTML = `
     <img src="${this.img}" alt="${this.alt}">
     <h3 class="menu__item-subtitle">${this.title}</h3>
     <div class="menu__item-descr">${this.descr}</div>
@@ -162,13 +166,13 @@ class Cards {
         <div class="menu__item-cost">Цена:</div>
         <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
     </div>
-    </div>`;
+    `;
     this.parent.append(element);
   }
 } 
 
-new Cards('img/tabs/vegy.jpg', 'vegy', 'Меню "Фитнес"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 229, cardsContainer).render()
+new Cards('img/tabs/vegy.jpg', 'vegy', 'Меню "Фитнес"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 229, cardsContainer, 'menu__item', 'big').render()
 
-new Cards('img/tabs/elite.jpg', 'elite', 'Меню “Премиум”', 'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!', 550, cardsContainer).render()
+new Cards('img/tabs/elite.jpg', 'elite', 'Меню “Премиум”', 'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!', 550, cardsContainer, 'menu__item').render()
 
-new Cards('img/tabs/post.jpg', 'post', 'Меню "Постное"', 'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков. ', 430, cardsContainer).render()
+new Cards('img/tabs/post.jpg', 'post', 'Меню "Постное"', 'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков. ', 430, cardsContainer, 'menu__item').render()
