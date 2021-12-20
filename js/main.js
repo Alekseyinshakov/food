@@ -113,12 +113,12 @@ window.addEventListener('scroll', showModalByScroll)
 function openModalFunction(params) {
   modal.style.display = 'block'
   document.body.style.overflow = 'hidden'
+  removeEventListener('scroll', showModalByScroll)
 }
 
 function showModalByScroll(params) {
   if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
     openModalFunction();
-    removeEventListener('scroll', showModalByScroll)
   }
 }
 
@@ -127,6 +127,10 @@ function closeModalFunction() {
   document.body.style.overflow = ''
   clearTimeout(modalTimerId)
 }
+
+console.log('bag');
+console.log('bag1');
+console.log('bag3');
 
 //*********************** CARDS************************ */
 
