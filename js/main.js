@@ -153,7 +153,7 @@ class Cards {
     } else {
       this.classes.forEach(className => element.classList.add(className));
     }
-    
+
     element.innerHTML = `
     <img src="${this.img}" alt="${this.alt}">
     <h3 class="menu__item-subtitle">${this.title}</h3>
@@ -166,7 +166,7 @@ class Cards {
     `;
     this.parent.append(element);
   }
-} 
+}
 
 new Cards('img/tabs/vegy.jpg', 'vegy', 'Меню "Фитнес"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 229, cardsContainer, 'menu__item', 'big').render()
 
@@ -201,10 +201,6 @@ function postData(form) {
     // form.append(statusMessage);
     form.insertAdjacentElement('afterend', statusMessage)
 
-    const request = new XMLHttpRequest();
-    request.open('POST', 'server.php')
-    request.setRequestHeader('Content-type', 'application/json')
-
     const formData = new FormData(form);
 
     const object = {}
@@ -212,21 +208,24 @@ function postData(form) {
       object[key] = value;
     })
 
-    const json = JSON.stringify(object)
-    
-    request.send(json)
-
-    request.addEventListener('load', () => {
-      if (request.status === 200) {
-        console.log(request.response);
-        showThanksModal(message.success);
-        form.reset();
-        
-        statusMessage.remove();
-        
-      } else {
-        showThanksModal(message.failure);
-      }
+    fetch('server1.php', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(object)
+    })
+    .then(data => data.text())
+    .then(data => {
+      console.log(data);
+      showThanksModal(message.success);
+      statusMessage.remove();
+    })
+    .catch(() => {
+      showThanksModal(message.failure);
+    })
+    .finally(() => {
+      form.reset();
     })
   })
 }
