@@ -1,0 +1,22 @@
+{
+  "name": "5-food",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alekseyinshakov/food.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alekseyinshakov/food/issues"
+  },
+  "homepage": "https://github.com/Alekseyinshakov/food#readme",
+  "devDependencies": {
+    "json-server": "^0.17.0"
+  }
+}

@@ -249,3 +249,11 @@ function showThanksModal(message) {
     closeModalFunction();
   }, 4000);
 }
+
+fetch('db.json')
+    .then((data) => {
+      return data.json()
+    })
+    .then((result) => {
+      console.log(result);
+    })
