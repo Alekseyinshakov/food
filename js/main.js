@@ -127,6 +127,14 @@ function closeModalFunction() {
 
 //*********************** CARDS************************ */
 
+// fetch('http://localhost:3000/menu')
+//     .then((data) => {
+//       return data.json()
+//     })
+//     .then((result) => {
+//       console.log(result);
+//     })
+
 const cardsContainer = document.querySelector('.menu .container');
 cardsContainer.innerHTML = '';
 
@@ -207,7 +215,6 @@ function createCards(data) {
     </div>
     `;
     cardsContainer.append(newElement);
-    console.log('ok');
   })
 }
 
@@ -289,10 +296,51 @@ function showThanksModal(message) {
   }, 4000);
 }
 
-fetch('http://localhost:3000/menu')
-    .then((data) => {
-      return data.json()
-    })
-    .then((result) => {
-      console.log(result);
-    })
+//*********************** SLIDER************************ */
+
+
+const sliderItems = document.querySelectorAll('.offer__slide'),
+      sliderCounter = document.querySelector('.offer__slider-counter'),
+      sliderPrevBtn = sliderCounter.querySelector('.offer__slider-prev'),
+      sliderNextBtn = sliderCounter.querySelector('.offer__slider-next'),
+      sliderCurrent = sliderCounter.querySelector('#current'),
+      sliderTotal = sliderCounter.querySelector('#total');
+
+sliderItems[0].style.display = 'block';
+sliderTotal.textContent = getZiro(sliderItems.length);
+let sliderI = 1;
+sliderCurrent.textContent = getZiro(sliderI);
+
+sliderNextBtn.addEventListener('click', () => {
+  nextSlider();
+})
+sliderPrevBtn.addEventListener('click', () => {
+  prevSlider();
+})
+
+function nextSlider(params) {
+  if (sliderI < sliderItems.length) {
+    sliderI++;
+  } else {
+    sliderI = 1;
+  }
+  sliderCurrent.textContent = getZiro(sliderI);
+  showSlide(sliderI);
+}
+
+function prevSlider(params) {
+  if (sliderI > 1) {
+    sliderI--;
+  } else {
+    sliderI = sliderItems.length;
+  }
+  sliderCurrent.textContent = getZiro(sliderI);
+  showSlide(sliderI);
+}
+
+function showSlide(i) {
+  sliderItems.forEach(item => {
+    item.style.display = '';
+  })
+  sliderItems[i-1].style.display = 'block';
+}
