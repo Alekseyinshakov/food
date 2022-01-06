@@ -323,6 +323,7 @@ sliderDots.forEach((item, i) => {
     sliderI = i + 1;
     showSlide(sliderI);
     changeDot(sliderI);
+    sliderCurrent.textContent = getZiro(sliderI);
   })
 })
 
