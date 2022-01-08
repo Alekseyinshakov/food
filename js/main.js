@@ -201,7 +201,13 @@ axios.get('http://localhost:3000/menu')
   })
 
 function createCards(data) {
-  data.forEach(({img, altimg, title, descr, price}) => {
+  data.forEach(({
+    img,
+    altimg,
+    title,
+    descr,
+    price
+  }) => {
     const newElement = document.createElement('div');
     newElement.classList.add('menu__item');
     newElement.innerHTML = `
@@ -237,8 +243,8 @@ const postData = async (url, data) => {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
-        'Content-type': 'application/json'
-      },
+      'Content-type': 'application/json'
+    },
     body: data
   });
   return await res.json()
@@ -262,17 +268,17 @@ function bindPostData(form) {
     const json = JSON.stringify(Object.fromEntries(formData.entries()))
 
     postData('http://localhost:3000/requests', json)
-    .then(data => {
-      console.log(data);
-      showThanksModal(message.success);
-      statusMessage.remove();
-    })
-    .catch(() => {
-      showThanksModal(message.failure);
-    })
-    .finally(() => {
-      form.reset();
-    })
+      .then(data => {
+        console.log(data);
+        showThanksModal(message.success);
+        statusMessage.remove();
+      })
+      .catch(() => {
+        showThanksModal(message.failure);
+      })
+      .finally(() => {
+        form.reset();
+      })
   })
 }
 
@@ -300,13 +306,13 @@ function showThanksModal(message) {
 
 
 const sliderItems = document.querySelectorAll('.offer__slide'),
-      sliderCounter = document.querySelector('.offer__slider-counter'),
-      sliderPrevBtn = sliderCounter.querySelector('.offer__slider-prev'),
-      sliderNextBtn = sliderCounter.querySelector('.offer__slider-next'),
-      sliderCurrent = sliderCounter.querySelector('#current'),
-      sliderTotal = sliderCounter.querySelector('#total'),
-      sliderLine = document.querySelector('.offer__slider-wrapper-2'),
-      sliderDotsContainer = document.querySelector('.carousel-indicators');
+  sliderCounter = document.querySelector('.offer__slider-counter'),
+  sliderPrevBtn = sliderCounter.querySelector('.offer__slider-prev'),
+  sliderNextBtn = sliderCounter.querySelector('.offer__slider-next'),
+  sliderCurrent = sliderCounter.querySelector('#current'),
+  sliderTotal = sliderCounter.querySelector('#total'),
+  sliderLine = document.querySelector('.offer__slider-wrapper-2'),
+  sliderDotsContainer = document.querySelector('.carousel-indicators');
 
 sliderDotsContainer.innerHTML = '';
 for (let i = 0; i < sliderItems.length; i++) {
@@ -342,7 +348,7 @@ sliderPrevBtn.addEventListener('click', () => {
 })
 
 function nextSlider() {
-    if (sliderI < sliderItems.length) {
+  if (sliderI < sliderItems.length) {
     sliderI++;
   } else {
     sliderI = 1;
@@ -366,7 +372,7 @@ function prevSlider(params) {
 function changeDot(i) {
   sliderDots.forEach((item) => {
     item.classList.remove('dot-active')
-    sliderDots[i-1].classList.add('dot-active')
+    sliderDots[i - 1].classList.add('dot-active')
   })
 }
 
@@ -417,3 +423,96 @@ function addPX(num) {
 //   })
 //   sliderItems[i-1].style.display = 'block';
 // }
+
+
+//*********************** CALCULATOR************************ */
+
+const result = document.querySelector('.calculating__result span');
+let gender, height, weight, age, ratio;
+gender = 'female';
+ratio = 1.375
+
+
+
+calcTotal();
+
+getStaticInfo('#gender', 'calculating__choose-item_active')
+getStaticInfo('.calculating__choose_big', 'calculating__choose-item_active')
+
+getDynamicInfo('#height')
+getDynamicInfo('#weight')
+getDynamicInfo('#age')
+
+
+function calcTotal(params) {
+  if (gender && height && weight && age && ratio) {
+    if (gender === 'female') {
+      result.textContent = Math.round((447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio);
+    } else {
+      result.textContent = Math.round((88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio);
+    }
+  } else {
+    result.textContent = '_____';
+    return;
+  }
+}
+
+function getDynamicInfo(selector) {
+  const input = document.querySelector(selector);
+  input.addEventListener('input', () => {
+    switch (input.getAttribute('id')) {
+      case 'height':
+        height = +input.value;
+        break;
+      case 'weight':
+        weight = +input.value;
+        break;
+      case 'age':
+        age = +input.value;
+        break;
+    }
+    calcTotal();
+  })
+}
+
+function getStaticInfo(parantSelector, classActive) {
+  const elements = document.querySelectorAll(`${parantSelector} div`);
+
+  elements.forEach((item) => {
+    item.addEventListener('click', (e) => {
+      if (e.target.getAttribute('data-ratio')) {
+        ratio = +e.target.getAttribute('data-ratio')
+      } else {
+        gender = e.target.getAttribute('id')
+      }
+
+      elements.forEach(elem => {
+        elem.classList.remove(classActive)
+      })
+      e.target.classList.add(classActive)
+
+      calcTotal();
+
+    })
+  })
+
+  // document.querySelector(parantSelector).addEventListener('click', (e) => {
+  //   if (e.target !== document.querySelector(parantSelector)) {
+  //     if (e.target.getAttribute('data-ratio')) {
+  //       ratio = +e.target.getAttribute('data-ratio')
+  //     } else {
+  //       gender = e.target.getAttribute('id')
+  //     }
+
+  //     console.log(ratio, gender);
+
+  //     elements.forEach(elem => {
+  //       elem.classList.remove(classActive)
+  //     })
+  //     e.target.classList.add(classActive)
+
+  //     calcTotal();
+  //   } 
+
+  // })
+}
