@@ -115,4 +115,4 @@ function calc(params) {
   }
 }
 
-module.exports = calc;
+export default calc;

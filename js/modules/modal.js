@@ -1,13 +1,36 @@
-function modal(params) {
+function openModalFunction(modalSelector, modalTimerId) {
+  const modal = document.querySelector(modalSelector)
+  modal.style.display = 'block'
+  document.body.style.overflow = 'hidden'
+  console.log(modalTimerId);
+  if (modalTimerId) {
+    clearTimeout(modalTimerId)
+  }
+  removeEventListener('scroll', showModalByScroll)
+}
+function closeModalFunction(modalSelector) {
+  const modal = document.querySelector(modalSelector)
+  modal.style.display = ''
+  document.body.style.overflow = '';
+  
+}
+
+function showModalByScroll(modalSelector, modalTimerId) {
+  if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
+    openModalFunction(modalSelector, modalTimerId);
+  }
+}
+
+function modal(triggerSelector, modalSelector, modalTimerId) {
   //*********************** MODAL************************ */
 
-  const modal = document.querySelector('.modal')
-  const openModal = document.querySelectorAll('[data-modal]')
-  const modalTimerId = setTimeout(openModalFunction, 500000)
+  const modal = document.querySelector(modalSelector)
+  const openModal = document.querySelectorAll(triggerSelector)
+
 
   openModal.forEach(item => {
     item.addEventListener('click', () => {
-      openModalFunction();
+      openModalFunction(modalSelector, modalTimerId);
     })
   })
 
@@ -15,35 +38,26 @@ function modal(params) {
 
   modal.addEventListener('click', (e) => {
     if (e.target === modal || e.target.getAttribute('data-close') == '') {
-      closeModalFunction();
+      closeModalFunction(modalSelector);
     }
   })
 
   document.addEventListener('keydown', (e) => {
     if (e.code === 'Escape' && modal.style.display) {
-      closeModalFunction();
+      closeModalFunction(modalSelector);
     }
   })
 
-  window.addEventListener('scroll', showModalByScroll)
+  window.addEventListener('scroll', showModalByScroll(modalSelector, modalTimerId))
 
-  function openModalFunction(params) {
-    modal.style.display = 'block'
-    document.body.style.overflow = 'hidden'
-    removeEventListener('scroll', showModalByScroll)
-  }
 
-  function showModalByScroll(params) {
-    if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
-      openModalFunction();
-    }
-  }
 
-  function closeModalFunction() {
-    modal.style.display = ''
-    document.body.style.overflow = ''
-    clearTimeout(modalTimerId)
-  }
+
+
+
 }
 
-module.exports = modal;
+export default modal;
+export {openModalFunction};
+export {closeModalFunction};
+export {showModalByScroll};

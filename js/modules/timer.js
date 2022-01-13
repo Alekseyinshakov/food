@@ -1,7 +1,6 @@
-function timer(params) {
+function timer(id, deadLine) {
   //*********************** TIMER************************ */
 
-const deadLine = '2021-12-27';
 
 function getTimeRemaining(endtime) {
   const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -33,8 +32,8 @@ function setClock(selector, endtime) {
     days = timer.querySelector('#days'),
     hours = timer.querySelector('#hours'),
     minutes = timer.querySelector('#minutes'),
-    seconds = timer.querySelector('#seconds')
-  timeInterval = setInterval(updateClock, 1000);
+    seconds = timer.querySelector('#seconds'),
+    timeInterval = setInterval(updateClock, 1000);
 
   updateClock()
 
@@ -52,7 +51,7 @@ function setClock(selector, endtime) {
   }
 }
 
-setClock('.timer', deadLine)
+setClock(id, deadLine)
 }
 
-module.exports = timer;
+export default timer;

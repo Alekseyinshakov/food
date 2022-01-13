@@ -1,4 +1,4 @@
-function slider(params) {
+function slider({slide, nextArr, prewArr}) {
   //*********************** SLIDER************************ */
   function getZiro(num) {
     if (num < 10) {
@@ -9,10 +9,10 @@ function slider(params) {
   }
   
 
-  const sliderItems = document.querySelectorAll('.offer__slide'),
+  const sliderItems = document.querySelectorAll(slide),
     sliderCounter = document.querySelector('.offer__slider-counter'),
-    sliderPrevBtn = sliderCounter.querySelector('.offer__slider-prev'),
-    sliderNextBtn = sliderCounter.querySelector('.offer__slider-next'),
+    sliderPrevBtn = sliderCounter.querySelector(prewArr),
+    sliderNextBtn = sliderCounter.querySelector(nextArr),
     sliderCurrent = sliderCounter.querySelector('#current'),
     sliderTotal = sliderCounter.querySelector('#total'),
     sliderLine = document.querySelector('.offer__slider-wrapper-2'),
@@ -130,4 +130,4 @@ function slider(params) {
 
 }
 
-module.exports = slider;
+export default slider;

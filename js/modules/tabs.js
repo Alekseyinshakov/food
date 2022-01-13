@@ -1,9 +1,9 @@
-function tabs(params) {
+function tabs(tabListSelector, tabContentSelector, tabItemsSelector, activeClass) {
   //*********************** TABS************************ */
 
-  const tabList = document.querySelector('.tabheader__items');
-  const tabContent = document.querySelectorAll('.tabcontent');
-  const tabItems = tabList.querySelectorAll('.tabheader__item');
+  const tabList = document.querySelector(tabListSelector);
+  const tabContent = document.querySelectorAll(tabContentSelector);
+  const tabItems = tabList.querySelectorAll(tabItemsSelector);
 
   function remooveClass(arr, className) {
     arr.forEach(itm => {
@@ -14,8 +14,8 @@ function tabs(params) {
   tabList.addEventListener('click', (e) => {
     tabItems.forEach((item, i) => {
       if (e.target == item) {
-        remooveClass(tabItems, 'tabheader__item_active');
-        tabItems[i].classList.add('tabheader__item_active');
+        remooveClass(tabItems, activeClass);
+        tabItems[i].classList.add(activeClass);
 
         remooveClass(tabContent, 'active');
         remooveClass(tabContent, 'fade');
@@ -26,4 +26,4 @@ function tabs(params) {
   })
 }
 
-module.exports = tabs;
+export default tabs;
